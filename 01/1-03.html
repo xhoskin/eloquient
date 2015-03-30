@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    
+// Шахматная доска
+// 
+// Напишите программу, создающую строку, содержащую решётку 8х8, в
+// которой линии разделяются символами новой строки. На каждой позиции
+// либо пробел, либо #. В результате должна получиться шахматная доска.
+
+var lines = 0;
+var dim   = 6;
+
+while ( lines < dim ) {
+    var chars = 0;
+    var s = '';
+    var part = lines%2 === 0 ? '# ' : ' #';
+    while ( chars < dim / 2 ) {
+        s+=part;
+        chars++;
+    }
+    console.log(s);
+    lines++;
+}
+
+</script>
+</body>
+</html>
