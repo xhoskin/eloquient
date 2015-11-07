@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    
+// Обращаем вспять массив
+//
+// У массивов есть метод reverse, меняющий порядок элементов в массиве на
+// обратный. В качестве упражнения напишите две функции, reverseArray и
+// reverseArrayInPlace. Первая получает массив как аргумент и выдаёт новый
+// массив, с обратным порядком элементов. Вторая работает как оригинальный
+// метод reverse – она меняет порядок элементов на обратный в том массиве,
+// который был ей передан в качестве аргумента. Не используйте стандартный
+// метод reverse.
+
+// Если иметь в виду побочные эффекты и чистые функции из предыдущей
+// главы, какой из вариантов вам кажется более полезным? Какой более
+// эффективным?
+
+var reverseArray = function(arr) {
+    var result = [];
+    for (var i = arr.length-1; i >= 0; i--) {
+        result.push( arr[i] );
+    }
+    return result;
+}
+
+var reverseArrayInPlace = function(arr) {
+    for (var i = 0, l = arr.length; i <= l; i++) {
+        arr.unshift( arr.pop() );
+    }
+}
+
+var ten = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+console.log( ten );
+console.log( reverseArray(ten) );
+reverseArrayInPlace(ten);
+console.log( ten );
+
+</script>
+</body>
+</html>

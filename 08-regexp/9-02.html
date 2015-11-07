@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    
+// Кавычки в тексте
+//
+// Допустим, вы написали рассказ, и везде для обозначения диалогов
+// использовали одинарные кавычки. Теперь вы хотите заменить кавычки
+// диалогов на двойные, и оставить одинарные в сокращениях слов типа aren’t.
+// Придумайте шаблон, различающий два этих использования кавычек, и
+// напишите вызов метода replace, который производит замену.
+
+var tale = "'They' tell 'me' that my 'friends' aren't 'real'."
+var result = tale.replace(/'/g, function(match, i){ 
+    if ( /\w/.test(tale[i-1]) && /\w/.test(tale[i+1]) ) {
+        return "'"
+    } else {
+        return '"'
+    }
+});
+
+console.log(result);
+
+</script>
+</body>
+</html>

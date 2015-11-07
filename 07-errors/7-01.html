@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script>
+    
+// Повтор
+//
+// Допустим, у вас есть функция primitiveMultiply, которая в 50% случаев
+// перемножает 2 числа, а в остальных случаях выбрасывает исключение типа
+// MultiplicatorUnitFailure. Напишите функцию, обёртывающую эту, и просто
+// вызывающую её до тех пор, пока не будет получен успешный результат.
+// Убедитесь, что вы обрабатываете только нужные вам исключения.
+
+function MultiplicatorUnitFailure() {
+    this.message = 'my error!';
+    this.stack   = (new Error()).stack; 
+}
+MultiplicatorUnitFailure.prototype = Object.create(Error.prototype);
+MultiplicatorUnitFailure.prototype.name = "MultiplicatorUnitFailure";
+
+
+function primitiveMultiply(a, b) {
+    if (Math.random() < 0.5)
+        return a * b;
+    else
+        throw new MultiplicatorUnitFailure();
+}
+function reliableMultiply(a, b) {
+    for (;;){
+        try { 
+            //debugger;
+            var prim = primitiveMultiply(a, b);
+            return prim;
+        }
+        catch (e) {
+            if (e instanceof MultiplicatorUnitFailure) {
+                console.log('Ошибка рандомизатора');
+            } else {
+                throw e 
+            } 
+        } 
+    }
+}
+
+console.log(reliableMultiply(8, 8));
+
+</script>
+</body>
+</html>

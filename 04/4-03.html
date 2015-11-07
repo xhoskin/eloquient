@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="ancestry.js"></script>
+
+<script>
+    
+// Историческая ожидаемая продолжительность жизни
+//
+// Мы считали, что только последнее поколение людей дожило до 90 лет.
+// Давайте рассмотрим этот феномен поподробнее. Подсчитайте средний
+// возраст людей для каждого из столетий. Назначаем столетию людей, беря их
+// год смерти, деля его на 100 и округляя: Math.ceil(person.died / 100).
+// 
+// В качестве призовой игры напишите функцию groupBy, абстрагирующую
+// операцию группировки. Она должна принимать массив и функцию, которая
+// подсчитывает группу для элементов массива, и возвращать объект, который
+// сопоставляет названия групп массивам членов этих групп.
+
+
+var ancestry = JSON.parse(ANCESTRY_FILE);
+
+function average(array) {
+    function plus(a, b) { return a + b; }
+    return array.reduce(plus) / array.length;
+}
+
+var byCenturies = {}
+
+function groupBy(arr, func){ 
+    var groupObj = {};
+    arr.forEach(function(p){
+        var id = func(p);
+        if ( groupObj[id] === undefined ) {
+            groupObj[id] = [];
+        }
+        groupObj[id].push( p )
+    });
+    return groupObj;
+}
+
+function getCentury(p) {
+    return Math.ceil(p.died / 100);
+}
+
+var byCenturies = groupBy( ancestry, getCentury );
+
+for ( century in byCenturies ) {
+    byCenturies[century] = average( byCenturies[century].map(function(p){ return p.died - p.born }) );
+    console.log( century + ": " + byCenturies[century] );
+}
+
+
+// Тут ваш код
+
+// 16: 43.5
+// 17: 51.2
+// 18: 52.8
+// 19: 54.8
+// 20: 84.7
+// 21: 94
+
+
+
+</script>
+</body>
+</html>

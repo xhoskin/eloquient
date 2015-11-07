@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<script src="cells.js"></script>
+
+<script>
+    
+// Ещё одна ячейка
+//
+// Создайте тип ячейки StretchCell(inner, width, height), соответствующий
+// интерфейсу ячеек таблицы из этой главы. Он должен оборачивать другую
+// ячейку (как делает UnderlinedCell), и убеждаться, что результирующая ячейка
+// имеет как минимум заданные ширину и высоту, даже если внутренняя ячейка
+// была бы меньше.
+
+function StretchCell(inner, width, height) {
+    this.inner  = inner;
+    this.width  = width;
+    this.height = height;
+};
+StretchCell.prototype.minWidth = function() {
+    var actualMinWidth = this.inner.minWidth();
+    if (actualMinWidth < this.width) {
+        return this.width;
+    } else { 
+        return actualMinWidth;
+    }
+};
+StretchCell.prototype.minHeight = function() {
+    var actualMinHeight = this.inner.minHeight();
+    if (actualMinHeight < this.height) {
+        return this.height;
+    } else { 
+        return actualMinHeight;
+    }
+};
+StretchCell.prototype.draw = function(width, height) {
+    var result = [];
+    for (var i = 0; i < height; i++) {
+        var line = this.inner.text[i] || "";
+        result.push(line + repeat(" ", width - line.length));
+    }
+    return result;
+};
+
+var sc = new StretchCell(new TextCell("abc"), 1, 2);
+console.log(sc.minWidth());
+// → 3
+console.log(sc.minHeight());
+// → 2
+console.log(sc.draw(3, 2));
+// → ["abc", " "]
+
+</script>
+
+</body>
+</html>

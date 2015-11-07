@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<script>
+    
+// Запертая коробка
+//
+// Это коробочка с замком. Внутри лежит массив, но до него можно добраться
+// только, когда коробка не заперта. Напрямую обращаться к свойству _content
+// нельзя.
+// 
+// Напишите функцию withBoxUnlocked, принимающую в качестве аргумента
+// функцию, которая отпирает коробку, выполняет функцию, и затем
+// обязательно запирает коробку снова перед выходом – неважно,
+// выполнилась ли переданная функция правильно, или она выбросила
+// исключение.
+
+var box = {
+    locked: true,
+    unlock: function() { this.locked = false; },
+    lock: function() { this.locked = true; },
+    _content: [],
+    get content() {
+        if (this.locked) throw new Error("Заперто!");
+        return this._content;
+    }
+};
+
+function withBoxUnlocked(body) {
+    box.unlock();
+    try {
+        body();
+    } catch(e) {
+        throw e;
+    } finally {
+        box.lock();
+    }
+}
+
+withBoxUnlocked(function() {
+    box.content.push("золотишко");
+});
+
+try {
+    withBoxUnlocked(function() {
+        throw new Error("Пираты на горизонте! Отмена!");
+    });
+} catch (e) {
+    console.log("Произошла ошибка:", e);
+}
+console.log(box.locked);
+// → true
+
+</script>
+</body>
+</html>
